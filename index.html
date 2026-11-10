@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pesquisa AHP Multicritério - Rotas Tecnológicas para uma Transição Energética Justa</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    /* Custom scrollbar for mobile scale */
+    .scale-container::-webkit-scrollbar { height: 6px; }
+    .scale-container::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+    .scale-container::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .scale-container::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* Tooltip CSS */
+    .tooltip { position: relative; display: inline-flex; }
+    .tooltip .tooltip-text {
+      visibility: hidden;
+      width: 270px;
+      background-color: #1e293b;
+      color: #fff;
+      text-align: center;
+      border-radius: 8px;
+      padding: 10px 12px;
+      position: absolute;
+      z-index: 50;
+      bottom: 130%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      font-size: 0.78rem;
+      font-weight: 400;
+      line-height: 1.4;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+      pointer-events: none;
+    }
+    .tooltip .tooltip-text::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px;
+      border-style: solid;
+      border-color: #1e293b transparent transparent transparent;
+    }
+    .tooltip:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+    .tooltip-safe-right .tooltip-text {
+      left: auto;
+      right: -10px;
+      transform: none;
+    }
+    .tooltip-safe-right .tooltip-text::after {
+      left: auto;
+      right: 25px;
+      transform: none;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans p-3 sm:p-6 md:p-8">
+
+  <!-- Toast / Banner de Notificação In-Page -->
+  <div id="toast-container" class="fixed top-4 right-4 z-50 max-w-md w-full hidden transition-all duration-300">
+    <div id="toast-box" class="rounded-xl shadow-xl border p-4 flex items-start gap-3 bg-white">
+      <div id="toast-icon" class="mt-0.5 shrink-0"></div>
+      <div class="flex-1 text-sm">
+        <h4 id="toast-title" class="font-bold text-slate-900">Notificação</h4>
+        <div id="toast-message" class="text-slate-600 mt-1 whitespace-pre-line leading-relaxed"></div>
+      </div>
+      <button type="button" onclick="hideToast()" class="text-slate-400 hover:text-slate-700 p-1">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+
+    <!-- Header -->
+    <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-950 text-white p-6 md:p-10">
+      <div class="flex flex-wrap items-center gap-2 mb-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-200 text-xs font-semibold uppercase tracking-wider">
+          Análise Multicritério à Decisão (AHP Híbrido) &bull; Transição Energética Justa
+        </div>
+        <div id="rodada-badge" class="inline-flex items-center px-3 py-1 rounded-full bg-amber-400 text-slate-900 text-xs font-bold uppercase tracking-wider">
+          Rodada
+        </div>
+      </div>
+      <h1 class="text-2xl md:text-3xl font-bold mb-4 leading-tight">
+        Avaliação Multicritério de Rotas Tecnológicas e Critérios para a Estratégia de Transição Energética Justa (ETE)
+      </h1>
+
+      <div class="text-slate-200 space-y-3.5 text-sm md:text-base leading-relaxed">
+        <p>Prezada(o) especialista,</p>
+        <p>
+          Esta pesquisa integra um estudo sobre a priorização de rotas tecnológicas e programas estruturantes voltados a uma <strong>Transição Energética Justa</strong> no âmbito da <strong>Estratégia de Transição Energética (ETE)</strong>, organizados em quatro grandes eixos estratégicos (Clusters): <strong>(1) Sistema energético moderno baseado em fontes renováveis</strong>, <strong>(2) Industrialização Verde</strong>, <strong>(3) Acesso universal às energias modernas</strong> e <strong>(4) Adoção de energias limpas para transportes</strong>.
+        </p>
+        <p>
+          Para garantir rigor metodológico com baixa carga cognitiva na avaliação de uma transição energética justa, o questionário adota a arquitetura <strong>Analytic Hierarchy Process (AHP) Híbrida em 3 Blocos</strong>:
+        </p>
+        <ul class="list-disc list-inside space-y-1 text-slate-300 pl-1">
+          <li><strong>Bloco 1 (Pesos de Dimensões e Critérios — AHP Par a Par):</strong> 18 comparações par a par na escala de Saaty (1 a 9) para determinar a importância relativa das <strong>4 Dimensões</strong> e dos <strong>12 Critérios</strong> de avaliação (com verificação automática de consistência <em>CR &le; 10%</em>).</li>
+          <li><strong>Bloco 2 (Avaliação dos 4 Clusters nos 12 Critérios — AHP Ratings):</strong> atribuição de notas em escala calibrada de Saaty (1 a 5) para avaliar o desempenho de cada um dos <strong>4 Clusters Tecnológicos</strong> frente aos 12 critérios.</li>
+          <li><strong>Bloco 3 (Priorização Intra-Cluster das 14 Rotas/Ações):</strong> avaliação do grau de prioridade estratégica (1 a 5) de cada uma das <strong>14 ações tecnológicas</strong> dentro do seu respectivo Cluster, permitindo recompor o ranking detalhado e o <em>share</em> das 14 rotas.</li>
+        </ul>
+        <p class="text-slate-300 text-xs md:text-sm pt-1">
+          O preenchimento completo leva aproximadamente <strong>10 a 12 minutos</strong>. Suas respostas serão tratadas de forma confidencial e utilizadas exclusivamente para fins acadêmicos e metodológicos.
+        </p>
+      </div>
+    </div>
+
+    <!-- Barra de Navegação dos Blocos -->
+    <div class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200 px-4 py-3 shadow-sm">
+      <div class="flex flex-wrap items-center justify-between gap-2 max-w-5xl mx-auto">
+        <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+          <button type="button" onclick="scrollToSection('sec-estrutura')" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">
+            Estrutura AHP
+          </button>
+          <button type="button" onclick="scrollToSection('sec-bloco1')" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200 transition-colors">
+            1. Pesos (18 pares)
+          </button>
+          <button type="button" onclick="scrollToSection('sec-bloco2')" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 transition-colors">
+            2. Clusters × Critérios
+          </button>
+          <button type="button" onclick="scrollToSection('sec-bloco3')" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 transition-colors">
+            3. As 14 Ações
+          </button>
+          <button type="button" onclick="scrollToSection('sec-avaliacao')" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">
+            Avaliação e Envio
+          </button>
+        </div>
+        <div id="global-status-pill" class="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
+          Matrizes Consistentes (CR &le; 10%)
+        </div>
+      </div>
+    </div>
+
+    <div class="p-4 sm:p-6 md:p-10 space-y-12">
+
+      <!-- Dados da(o) Especialista -->
+      <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 shadow-sm">
+        <h2 class="text-lg font-bold text-slate-800 mb-1">Dados da(o) Especialista</h2>
+        <p class="text-xs sm:text-sm text-slate-500 mb-4">O nome é obrigatório e permite comparar as suas respostas entre as rodadas (use sempre a mesma grafia). Instituição e área são opcionais. As informações são utilizadas apenas para caracterização metodológica do painel de especialistas.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div id="box-nome">
+            <label for="nome-especialista" class="block text-sm font-medium text-slate-700 mb-1">Nome Completo: <span class="text-red-500">*</span></label>
+            <input type="text" id="nome-especialista" placeholder="Ex.: Maria Silva" autocomplete="name" class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm bg-white">
+          </div>
+          <div>
+            <label for="inst-especialista" class="block text-sm font-medium text-slate-700 mb-1">Instituição ou Empresa:</label>
+            <input type="text" id="inst-especialista" placeholder="Ex.: Universidade / Ministério / Consultoria" class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm bg-white">
+          </div>
+          <div>
+            <label for="area-especialista" class="block text-sm font-medium text-slate-700 mb-1">Área Principal de Atuação:</label>
+            <input type="text" id="area-especialista" placeholder="Digite sua área de atuação (ex.: Planejamento Energético, Regulação...)" class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm bg-white">
+          </div>
+        </div>
+      </div>
+
+      <!-- Estrutura Hierárquica AHP Completa -->
+      <div id="sec-estrutura" class="scroll-mt-20">
+        <h2 class="text-xl font-bold mb-4 border-b pb-2 text-slate-800 flex items-center justify-between">
+          <span>Estrutura Hierárquica da Análise AHP — Transição Energética Justa (4 Dimensões, 12 Critérios, 4 Clusters e 14 Rotas)</span>
+        </h2>
+
+        <div class="flex flex-col items-center mb-6 space-y-4">
+          <!-- Nível 0: Objetivo -->
+          <div class="bg-slate-800 text-white font-bold py-3 px-6 rounded-xl shadow text-center w-full max-w-xl border border-slate-700">
+            Objetivo Global (Nível 0):<br>
+            <span class="text-sm font-normal text-slate-200">Priorização Multicritério das Rotas Tecnológicas para a Estratégia de Transição Energética Justa (ETE)</span>
+          </div>
+
+          <div class="w-px h-5 bg-slate-400"></div>
+
+          <!-- Nível 1 & 2: 4 Dimensões e 12 Critérios -->
+          <div class="w-full">
+            <div class="text-xs font-bold uppercase tracking-wider text-slate-500 text-center mb-2">Níveis 1 e 2 — 4 Dimensões e 12 Critérios de Avaliação (Bloco 1: Comparação Par a Par)</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 w-full text-center">
+              <!-- Técnica -->
+              <div class="flex flex-col items-center bg-amber-50/50 p-3 rounded-xl border border-amber-200">
+                <div class="bg-amber-600 text-white font-bold py-2 px-3 rounded-lg shadow-sm w-full mb-2 text-sm">1. Dimensão Técnica</div>
+                <div class="bg-white border border-amber-200 text-amber-950 text-xs py-2 px-2 w-full rounded mb-1.5 shadow-sm font-medium">1.1 Maturidade tecnológica</div>
+                <div class="bg-white border border-amber-200 text-amber-950 text-xs py-2 px-2 w-full rounded mb-1.5 shadow-sm font-medium">1.2 Segurança energética</div>
+                <div class="bg-white border border-amber-200 text-amber-950 text-xs py-2 px-2 w-full rounded shadow-sm font-medium">1.3 Potencial de inovação</div>
+              </div>
+              <!-- Econômica -->
+              <div class="flex flex-col items-center bg-emerald-50/50 p-3 rounded-xl border border-emerald-200">
+                <div class="bg-emerald-600 text-white font-bold py-2 px-3 rounded-lg shadow-sm w-full mb-2 text-sm">2. Dimensão Econômica</div>
+                <div class="bg-white border border-emerald-200 text-emerald-950 text-xs py-2 px-2 w-full rounded mb-1.5 shadow-sm font-medium">2.1 Viabilidade econômica</div>
+                <div class="bg-white border border-emerald-200 text-emerald-950 text-xs py-2 px-2 w-full rounded mb-1.5 shadow-sm font-medium">2.2 Tendência de custo</div>
+                <div class="bg-white border border-emerald-200 text-emerald-950 text-xs py-2 px-2 w-full rounded shadow-sm font-medium">2.3 Geração de emprego e renda</div>
+              </div>
+              <!-- Social -->
+              <div class="flex flex-col items-center bg-purple-50/50 p-3 rounded-xl border border-purple-200">
+                <div class="bg-purple-600 text-white font-bold py-2 px-3 rounded-lg shadow-sm w-full mb-2 text-sm">3. Dimensão Social</div>
+                <div class="bg-white border border-purple-200 text-purple-950 text-xs py-2 px-2 w-full rounded mb-1.5 shadow-sm font-medium">3.1 Acessibilidade e disponibilidade</div>
+                <div class="bg-white border border-purple-200 text-purple-950 text-xs py-2 px-2 w-full rounded mb-1.5 shadow-sm font-medium">3.2 Inclusão social e cultura local</div>
+                <div class="bg-white border border-purple-200 text-purple-950 text-xs py-2 px-2 w-full rounded shadow-sm font-medium">3.3 Saúde e qualidade de vida</div>
+              </div>
+              <!-- Ambiental -->
+              <div class="flex flex-col items-center bg-blue-50/50 p-3 rounded-xl border border-blue-200">
+                <div class="bg-blue-600 text-white font-bold py-2 px-3 rounded-lg shadow-sm w-full mb-2 text-sm">4. Dimensão Ambiental</div>
+                <div class="bg-white border border-blue-200 text-blue-950 text-xs py-2 px-2 w-full rounded mb-1.5 shadow-sm font-medium">4.1 Emissão de GEE</div>
+                <div class="bg-white border border-blue-200 text-blue-950 text-xs py-2 px-2 w-full rounded mb-1.5 shadow-sm font-medium">4.2 Poluição atmosférica local</div>
+                <div class="bg-white border border-blue-200 text-blue-950 text-xs py-2 px-2 w-full rounded shadow-sm font-medium">4.3 Recursos hídricos e resíduos</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="w-px h-5 bg-slate-400"></div>
+
+          <!-- Nível 3 & 4: Os 4 Clusters e as 14 Rotas -->
+          <div class="w-full">
+            <div class="text-xs font-bold uppercase tracking-wider text-slate-500 text-center mb-2">Níveis 3 e 4 — 4 Clusters Estratégicos e 14 Programas/Rotas da Transição Energética Justa (Blocos 2 e 3)</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 w-full">
+              <!-- Cluster 1 -->
+              <div class="bg-slate-50 border border-slate-300 rounded-xl p-3 flex flex-col">
+                <div class="bg-teal-800 text-white font-bold text-xs sm:text-sm py-2 px-3 rounded-lg mb-2 text-center">
+                  Cluster 1: Sistema Energético Renovável
+                </div>
+                <p class="text-[11px] text-slate-600 mb-2 leading-snug">Transição justa da geração térmica e fontes tradicionais para sistema liderado por renováveis e rede robusta.</p>
+                <div class="space-y-1 text-xs mt-auto">
+                  <div class="p-1.5 rounded bg-emerald-700 text-white font-medium">1. Energia hidroeléctrica</div>
+                  <div class="p-1.5 rounded bg-emerald-700 text-white font-medium">2. Rede eléctrica nacional</div>
+                  <div class="p-1.5 rounded bg-emerald-700 text-white font-medium">3. Energia solar e eólica</div>
+                  <div class="p-1.5 rounded bg-emerald-700 text-white font-medium">4. Descarbonização sector GN</div>
+                </div>
+              </div>
+              <!-- Cluster 2 -->
+              <div class="bg-slate-50 border border-slate-300 rounded-xl p-3 flex flex-col">
+                <div class="bg-teal-800 text-white font-bold text-xs sm:text-sm py-2 px-3 rounded-lg mb-2 text-center">
+                  Cluster 2: Industrialização Verde
+                </div>
+                <p class="text-[11px] text-slate-600 mb-2 leading-snug">Indústria de baixo carbono alavancando recursos naturais e energéticos com energia limpa, barata e fiável.</p>
+                <div class="space-y-1 text-xs mt-auto">
+                  <div class="p-1.5 rounded bg-emerald-700 text-white font-medium">5. Parques industriais verdes</div>
+                  <div class="p-1.5 rounded bg-emerald-700 text-white font-medium">6. Plano Gás Doméstico</div>
+                  <div class="p-1.5 rounded bg-emerald-700 text-white font-medium">7. Redução do carvão mineral</div>
+                  <div class="p-1.5 rounded bg-emerald-700 text-white font-medium">8. Descarb. exploração mineira</div>
+                  <div class="p-1.5 rounded bg-emerald-700 text-white font-medium">9. Minerais críticos sustentáveis</div>
+                  <div class="p-1.5 rounded bg-emerald-700 text-white font-medium">10. Roadmap de hidrogénio</div>
+                </div>
+              </div>
+              <!-- Cluster 3 -->
+              <div class="bg-slate-50 border border-slate-300 rounded-xl p-3 flex flex-col">
+                <div class="bg-teal-800 text-white font-bold text-xs sm:text-sm py-2 px-3 rounded-lg mb-2 text-center">
+                  Cluster 3: Acesso Universal Moderno
+                </div>
+                <p class="text-[11px] text-slate-600 mb-2 leading-snug">Transição justa da dependência familiar de lenha e carvão vegetal para eletricidade e cocção limpa.</p>
+                <div class="space-y-1 text-xs mt-auto">
+                  <div class="p-1.5 rounded bg-emerald-700 text-white font-medium">11. Acesso à energia off-grid</div>
+                  <div class="p-1.5 rounded bg-emerald-700 text-white font-medium">12. Soluções de cozinha limpa</div>
+                </div>
+              </div>
+              <!-- Cluster 4 -->
+              <div class="bg-slate-50 border border-slate-300 rounded-xl p-3 flex flex-col">
+                <div class="bg-teal-800 text-white font-bold text-xs sm:text-sm py-2 px-3 rounded-lg mb-2 text-center">
+                  Cluster 4: Transportes Limpos
+                </div>
+                <p class="text-[11px] text-slate-600 mb-2 leading-snug">Transição do petróleo e transporte individual para biocombustíveis, VEs, GNV e transporte público.</p>
+                <div class="space-y-1 text-xs mt-auto">
+                  <div class="p-1.5 rounded bg-emerald-700 text-white font-medium">13. Descarb. dos transportes</div>
+                  <div class="p-1.5 rounded bg-emerald-700 text-white font-medium">14. Cadeia de biocombustíveis</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- BLOCO 1: COMPARAÇÃO PAR A PAR DE DIMENSÕES E CRITÉRIOS    -->
+      <!-- ========================================================= -->
+      <div id="sec-bloco1" class="scroll-mt-20 space-y-8">
+        <div class="bg-blue-50 p-6 rounded-xl border border-blue-200 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <h2 class="text-xl font-bold text-blue-900 flex items-center gap-2">
+              <span class="bg-blue-700 text-white w-7 h-7 rounded-full inline-flex items-center justify-center text-sm">1</span>
+              Bloco 1 — Ponderação das Dimensões e dos Critérios (AHP Par a Par)
+            </h2>
+            <span class="text-xs font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-800 border border-blue-300">
+              18 comparações par a par (Escala 1 a 9 de Saaty)
+            </span>
+          </div>
+          <div class="text-blue-950 space-y-3 text-sm md:text-base">
+            <p>
+              Neste primeiro bloco, avalie a importância relativa entre as <strong>4 Dimensões</strong> (6 pares) e entre os <strong>3 Critérios de cada Dimensão</strong> (12 pares) para orientar uma <strong>transição energética justa</strong>.
+            </p>
+            <p class="font-bold italic bg-white/80 p-3 rounded-lg border border-blue-200">
+              Pergunta orientadora: “Para priorizar rotas tecnológicas na Estratégia de Transição Energética Justa, qual destes dois elementos deve ter maior peso na decisão e com que intensidade?”
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3 bg-white p-4 rounded-lg border border-blue-200">
+              <div>
+                <p class="font-bold border-b pb-1 mb-2 text-slate-800 text-sm">Valores Principais da Escala de Saaty:</p>
+                <ul class="space-y-1 text-xs sm:text-sm text-slate-700">
+                  <li><strong>1</strong> — Igual importância entre os dois elementos</li>
+                  <li><strong>3</strong> — Importância moderada de um sobre o outro</li>
+                  <li><strong>5</strong> — Importância forte / essencial</li>
+                  <li><strong>7</strong> — Importância muito forte / demonstrada</li>
+                  <li><strong>9</strong> — Importância extrema / absoluta</li>
+                </ul>
+              </div>
+              <div>
+                <p class="font-bold border-b pb-1 mb-2 text-slate-800 text-sm">Valores Intermediários e Consistência:</p>
+                <ul class="space-y-1.5 text-xs sm:text-sm text-slate-700">
+                  <li><strong>2, 4, 6, 8</strong> — Valores intermediários entre dois graus adjacentes.</li>
+                  <li><strong>Razão de Consistência (CR):</strong> O indicador no canto superior direito de cada cartão mostra a coerência lógica das suas respostas em tempo real, assim que todos os pares do cartão forem respondidos. Mantenha o <strong>CR &le; 10,0%</strong> em todos os cartões.</li>
+                </ul>
+              </div>
+              <div class="md:col-span-2 text-xs sm:text-sm bg-amber-50 border border-amber-200 text-amber-900 p-3 rounded-lg">
+                <strong>Nenhuma opção vem marcada.</strong> Clique em uma posição em <strong>todos</strong> os pares — inclusive no <strong>1 (centro)</strong> quando considerar os dois elementos igualmente importantes. O envio só é liberado quando todos os itens tiverem sido respondidos.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Container Dinâmico do Bloco 1 -->
+        <div id="form-bloco1-container" class="space-y-8"></div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- BLOCO 2: AVALIAÇÃO DOS 4 CLUSTERS NOS 12 CRITÉRIOS        -->
+      <!-- ========================================================= -->
+      <div id="sec-bloco2" class="scroll-mt-20 space-y-8 pt-4 border-t border-slate-200">
+        <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-200 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <h2 class="text-xl font-bold text-emerald-950 flex items-center gap-2">
+              <span class="bg-emerald-700 text-white w-7 h-7 rounded-full inline-flex items-center justify-center text-sm">2</span>
+              Bloco 2 — Avaliação dos 4 Clusters Tecnológicos segundo os 12 Critérios (AHP Ratings)
+            </h2>
+            <span class="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
+              Escala Calibrada de Saaty (1 a 5)
+            </span>
+          </div>
+          <div class="text-emerald-950 space-y-3 text-sm md:text-base">
+            <p>
+              Para evitar centenas de comparações repetitivas, utilizamos aqui o modo <strong>AHP Ratings (Avaliação Absoluta de Saaty)</strong>. Avalie o desempenho ou potencial de contribuição de cada um dos <strong>4 Clusters da ETE</strong> frente aos <strong>12 critérios</strong> na promoção de uma <strong>transição energética justa</strong>, atribuindo uma nota de <strong>1 (Muito Baixo)</strong> a <strong>5 (Muito Alto)</strong>.
+            </p>
+            <p class="text-xs sm:text-sm bg-white p-3 rounded-lg border border-emerald-200 text-slate-700">
+              <strong>Atenção à direção positiva das notas:</strong> Em todos os critérios (inclusive <em>Viabilidade econômica</em>, <em>Emissão de GEE</em>, <em>Poluição atmosférica</em> e <em>Recursos hídricos e resíduos</em>), a nota <strong>5 (Muito Alto)</strong> representa sempre a condição <strong>mais favorável à transição energética justa</strong> (ex.: maior viabilidade econômica, maior redução/mitigação de emissões ou menor pressão ambiental).
+            </p>
+            <p class="text-xs sm:text-sm text-emerald-900">
+              Nenhuma nota vem marcada: atribua uma nota a cada Cluster em cada critério (inclusive a nota 3, se for o caso).
+            </p>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-1 text-center text-xs">
+              <div class="bg-white p-2 rounded border border-emerald-200">
+                <span class="font-bold block text-slate-800">1 — Muito Baixo</span>
+                <span class="text-slate-500">Peso AHP: 0,150</span>
+              </div>
+              <div class="bg-white p-2 rounded border border-emerald-200">
+                <span class="font-bold block text-slate-800">2 — Baixo</span>
+                <span class="text-slate-500">Peso AHP: 0,238</span>
+              </div>
+              <div class="bg-white p-2 rounded border border-emerald-200">
+                <span class="font-bold block text-slate-800">3 — Moderado</span>
+                <span class="text-slate-500">Peso AHP: 0,386</span>
+              </div>
+              <div class="bg-white p-2 rounded border border-emerald-200">
+                <span class="font-bold block text-emerald-700">4 — Alto</span>
+                <span class="text-slate-500">Peso AHP: 0,629</span>
+              </div>
+              <div class="bg-white p-2 rounded border border-emerald-200 col-span-2 sm:col-span-1">
+                <span class="font-bold block text-emerald-800">5 — Muito Alto</span>
+                <span class="text-slate-500">Peso AHP: 1,000</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Container Dinâmico do Bloco 2 -->
+        <div id="form-bloco2-container" class="space-y-8"></div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- BLOCO 3: PRIORIZAÇÃO INTRA-CLUSTER DAS 14 ROTAS           -->
+      <!-- ========================================================= -->
+      <div id="sec-bloco3" class="scroll-mt-20 space-y-8 pt-4 border-t border-slate-200">
+        <div class="bg-amber-50 p-6 rounded-xl border border-amber-200 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <h2 class="text-xl font-bold text-amber-950 flex items-center gap-2">
+              <span class="bg-amber-600 text-white w-7 h-7 rounded-full inline-flex items-center justify-center text-sm">3</span>
+              Bloco 3 — Priorização Intra-Cluster das 14 Ações / Rotas Tecnológicas
+            </h2>
+            <span class="text-xs font-semibold px-3 py-1 rounded-full bg-amber-100 text-amber-900 border border-amber-300">
+              Granularidade das 14 Rotas da ETE
+            </span>
+          </div>
+          <div class="text-amber-950 space-y-2.5 text-sm md:text-base">
+            <p>
+              Agora que os 4 Clusters foram avaliados segundo os critérios, indique o <strong>grau de prioridade estratégica (de 1 a 5)</strong> de cada uma das <strong>14 ações tecnológicas dentro do seu respectivo Cluster</strong> para concretizar uma <strong>transição energética justa</strong>.
+            </p>
+            <p class="text-xs sm:text-sm text-amber-900">
+              Essa etapa permite desagregar a pontuação multicritério de cada Cluster para suas ações específicas, preservando a granularidade completa das 14 rotas tecnológicas e calculando automaticamente o <em>share</em> (participação relativa) e o ranking de cada rota.
+            </p>
+            <p class="text-xs sm:text-sm text-amber-900">
+              Nenhuma nota vem marcada. O <strong>"Peso no Cluster"</strong> exibido em cada rota mostra apenas como a sua nota se distribui <em>dentro</em> do Cluster; no ranking final, a nota da rota é combinada com a pontuação multicritério do Cluster (Bloco 2).
+            </p>
+          </div>
+        </div>
+
+        <!-- Container Dinâmico do Bloco 3 -->
+        <div id="form-bloco3-container" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- AVALIAÇÃO DO MODELO PROPOSTO                              -->
+      <!-- ========================================================= -->
+      <div id="sec-avaliacao" class="scroll-mt-20 mt-12 bg-slate-50 p-6 md:p-8 rounded-xl border border-slate-200 shadow-sm space-y-8">
+        <h2 class="text-xl font-bold text-slate-800 border-b pb-2 flex items-center gap-2">
+          <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+          Avaliação do Modelo Proposto
+        </h2>
+
+        <!-- Pergunta 1 -->
+        <div id="box-suficiencia">
+          <label class="block text-sm md:text-base font-bold text-slate-700 mb-4">
+            1. As quatro dimensões, os doze critérios e a estrutura em quatro clusters (com 14 rotas tecnológicas) são suficientes, em uma primeira aproximação, para apoiar a priorização na Estratégia de Transição Energética Justa? <span class="text-red-500">*</span>
+          </label>
+          <div class="flex flex-col md:flex-row items-center justify-between bg-white p-4 rounded-lg border border-slate-300 gap-4">
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider text-center md:text-left">1 = Totalmente<br>insuficientes</span>
+            <div class="flex gap-4 sm:gap-8">
+              <label class="flex flex-col items-center cursor-pointer group">
+                <span class="text-sm mb-2 font-bold group-hover:text-blue-600">1</span>
+                <input type="radio" name="suficiencia" value="1" class="w-5 h-5 text-blue-600 focus:ring-blue-500 cursor-pointer">
+              </label>
+              <label class="flex flex-col items-center cursor-pointer group">
+                <span class="text-sm mb-2 font-bold group-hover:text-blue-600">2</span>
+                <input type="radio" name="suficiencia" value="2" class="w-5 h-5 text-blue-600 focus:ring-blue-500 cursor-pointer">
+              </label>
+              <label class="flex flex-col items-center cursor-pointer group">
+                <span class="text-sm mb-2 font-bold group-hover:text-blue-600">3</span>
+                <input type="radio" name="suficiencia" value="3" class="w-5 h-5 text-blue-600 focus:ring-blue-500 cursor-pointer">
+              </label>
+              <label class="flex flex-col items-center cursor-pointer group">
+                <span class="text-sm mb-2 font-bold group-hover:text-blue-600">4</span>
+                <input type="radio" name="suficiencia" value="4" class="w-5 h-5 text-blue-600 focus:ring-blue-500 cursor-pointer">
+              </label>
+              <label class="flex flex-col items-center cursor-pointer group">
+                <span class="text-sm mb-2 font-bold group-hover:text-blue-600">5</span>
+                <input type="radio" name="suficiencia" value="5" class="w-5 h-5 text-blue-600 focus:ring-blue-500 cursor-pointer">
+              </label>
+            </div>
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider text-center md:text-right">5 = Totalmente<br>suficientes</span>
+          </div>
+        </div>
+
+        <!-- Pergunta 2 -->
+        <div>
+          <label for="criterios_faltantes" class="block text-sm md:text-base font-bold text-slate-700 mb-2">
+            2. Há algum critério ou rota tecnológica importante para uma transição energética justa que não foi considerado?
+          </label>
+          <textarea id="criterios_faltantes" rows="2" placeholder="Sua resposta (Opcional)" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm"></textarea>
+        </div>
+
+        <!-- Pergunta 3 -->
+        <div>
+          <label for="comentarios_finais" class="block text-sm md:text-base font-bold text-slate-700 mb-2">
+            3. Comentários finais ou sugestões metodológicas adicionais (opcional):
+          </label>
+          <textarea id="comentarios_finais" rows="2" placeholder="Sua resposta (Opcional)" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm"></textarea>
+        </div>
+      </div>
+
+      <!-- Botão Submit Principal -->
+      <div class="mt-8 text-center border-t pt-8">
+        <button type="button" id="validate-btn" onclick="validateAndShowResults()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-8 rounded-xl shadow-lg transition-all transform hover:scale-105">
+          Verificar Consistência, Calcular Ranking e Enviar Dados
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal de Resultados / Envio -->
+  <div id="result-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-6 z-50">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[94vh] flex flex-col relative shadow-2xl border border-slate-200 overflow-hidden">
+      <!-- Cabeçalho fixo -->
+      <div class="flex items-start justify-between gap-3 px-4 sm:px-6 pt-4 pb-3 border-b border-slate-200 shrink-0">
+        <div>
+          <h2 class="text-lg sm:text-xl font-bold text-slate-800 leading-tight">Resumo da sua avaliação</h2>
+          <p id="modal-subtitle" class="text-xs text-slate-500 mt-0.5"></p>
+        </div>
+        <button type="button" onclick="closeModal()" aria-label="Fechar e revisar respostas" class="text-slate-400 hover:text-slate-800 p-1 rounded-lg hover:bg-slate-100 shrink-0">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <!-- Corpo rolável -->
+      <div id="modal-content" class="px-4 sm:px-6 py-4 overflow-y-auto flex-1 min-h-0"></div>
+      <!-- Rodapé fixo: botão de envio sempre visível -->
+      <div class="px-4 sm:px-6 py-3 border-t border-slate-200 bg-slate-50 shrink-0">
+        <div id="send-status" class="hidden text-xs sm:text-sm mb-2 rounded-lg px-3 py-2"></div>
+        <button type="button" onclick="sendToGoogleSheets()" id="btn-enviar" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl shadow transition-colors flex items-center justify-center gap-2 text-sm sm:text-base">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+          Confirmar e Enviar Resposta
+        </button>
+        <div class="flex items-center justify-center gap-4 mt-2 text-xs">
+          <span class="text-slate-500">Baixar minhas respostas:</span>
+          <button type="button" onclick="downloadResultsCSV()" class="font-semibold text-blue-700 hover:underline">CSV</button>
+          <button type="button" onclick="downloadResultsJSON()" class="font-semibold text-blue-700 hover:underline">JSON</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // CONFIGURAÇÃO DA RODADA E DA PLANILHA (os dois arquivos só diferem em RODADA)
+    // =========================================================================
+    const RODADA = 2;          // 1 ou 2 — fixo neste arquivo; o especialista não escolhe
+    const VERSAO_FORMULARIO = 'v2';
+    // Cole abaixo a URL /exec da NOVA implantação do Apps Script v2 (a mesma nos dois arquivos)
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwfivrTXdAPcR7DXL8GJoSjGKSjzT-G0Sz7ApFaNMJ6ZlCooIsdhYLX2aQONeD8g9XZRg/exec";
+
+    // Escala completa de Saaty (17 posições: da esquerda [favorável ao item A] para a direita [favorável ao item B])
+    const scaleValues = [9, 8, 7, 6, 5, 4, 3, 2, 1, 1/2, 1/3, 1/4, 1/5, 1/6, 1/7, 1/8, 1/9];
+    const scaleLabels = ['9', '8', '7', '6', '5', '4', '3', '2', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+    // Pesos Idealizados de Saaty para Escala de Intensidades de 5 Níveis (AHP Ratings Mode)
+    const RATING_SCALE = [
+      { level: 1, label: '1 - Muito Baixo', short: '1', norm: 0.0624, ideal: 0.150 },
+      { level: 2, label: '2 - Baixo',       short: '2', norm: 0.0986, ideal: 0.238 },
+      { level: 3, label: '3 - Moderado',    short: '3', norm: 0.1606, ideal: 0.386 },
+      { level: 4, label: '4 - Alto',        short: '4', norm: 0.2625, ideal: 0.629 },
+      { level: 5, label: '5 - Muito Alto',  short: '5', norm: 0.4159, ideal: 1.000 }
+    ];
+
+    // Tabela de Índices Aleatórios de Saaty (RI) por ordem da matriz n (n = 1..10)
+    const RI_TABLE = { 1: 0.00, 2: 0.00, 3: 0.58, 4: 0.90, 5: 1.12, 6: 1.24, 7: 1.32, 8: 1.41, 9: 1.45, 10: 1.49 };
+
+    // Estrutura Hierárquica do Bloco 1 (4 Dimensões -> Matriz 4x4; 3 Critérios por Dimensão -> 4 Matrizes 3x3)
+    const hierarchy = {
+      id: 'dimensoes',
+      title: '1.1 Comparação entre as 4 Dimensões Principais (Matriz 4×4)',
+      color: 'slate',
+      tooltip: 'Avalie qual dimensão estratégica deve ter maior peso global na priorização das rotas da Transição Energética Justa.',
+      preQuestion: 'Para priorizar as rotas tecnológicas na Estratégia de Transição Energética Justa, qual destas duas dimensões deve ter maior peso na avaliação?',
+      items: ['Dimensão Técnica', 'Dimensão Econômica', 'Dimensão Social', 'Dimensão Ambiental'],
+      descriptions: [
+        'Reúne aspectos de maturidade tecnológica comprovada, segurança energética e potencial de inovação das rotas tecnológicas para uma transição energética justa.',
+        'Reúne aspectos de viabilidade econômica atual, trajetória de competitividade futura (tendência de custo) e geração de emprego e renda.',
+        'Reúne aspectos ligados à universalização do acesso e disponibilidade energética, inclusão social/produtiva, cultura local e impactos diretos na saúde e qualidade de vida.',
+        'Reúne aspectos de descarbonização (mitigação de emissões de GEE), redução da poluição atmosférica local e pressão sobre recursos hídricos e geração de resíduos.'
+      ],
+      children: [
+        {
+          id: 'tecnica',
+          dimIndex: 0,
+          title: '1.2 Comparação: Critérios da Dimensão Técnica (Matriz 3×3)',
+          color: 'amber',
+          tooltip: 'Avalie o peso relativo dos 3 critérios técnicos.',
+          preQuestion: 'Dentro da Dimensão Técnica, qual destes dois critérios é mais determinante para avaliar as rotas tecnológicas na transição energética justa?',
+          items: ['Maturidade tecnológica', 'Segurança energética', 'Potencial de inovação'],
+          keys: ['maturidade_tecnologica', 'seguranca_energetica', 'potencial_inovacao'],
+          descriptions: [
+            'Grau de consolidação técnica e comercial da tecnologia (TRL), refletindo sua confiabilidade comprovada em escala operacional e facilidade de implantação.',
+            'Contribuição da rota para a confiabilidade operativa, firmeza de suprimento, resiliência da rede e redução de vulnerabilidades energéticas.',
+            'Capacidade da rota de impulsionar aprendizado técnico, desenvolvimento de novas cadeias tecnológicas, transferência de conhecimento e soluções inovadoras no país.'
+          ],
+          ratingPrompts: [
+            'Nível de maturidade tecnológica e comercial comprovada (TRL) das soluções que compõem o Cluster:',
+            'Contribuição do Cluster para a firmeza, resiliência e segurança energética nacional:',
+            'Potencial do Cluster para induzir inovação tecnológica, transferência de conhecimento e desenvolvimento técnico local:'
+          ]
+        },
+        {
+          id: 'economica',
+          dimIndex: 1,
+          title: '1.3 Comparação: Critérios da Dimensão Econômica (Matriz 3×3)',
+          color: 'emerald',
+          tooltip: 'Avalie o peso relativo dos 3 critérios econômicos.',
+          preQuestion: 'Dentro da Dimensão Econômica, qual destes dois critérios deve ter maior peso na decisão para uma transição energética justa?',
+          items: ['Viabilidade econômica', 'Tendência de custo', 'Geração de emprego e renda'],
+          keys: ['viabilidade_economica', 'tendencia_custo', 'emprego_renda'],
+          descriptions: [
+            'Atratividade e viabilidade econômico-financeira atual da rota (relação custo-benefício, necessidade de investimento CAPEX/OPEX e sustentabilidade financeira).',
+            'Trajetória esperada de redução de custos e ganho de competitividade econômica no médio e longo prazo (curva de aprendizado).',
+            'Potencial de criação de postos de trabalho diretos/indiretos e dinamização de renda ao longo da cadeia produtiva nacional e regional.'
+          ],
+          ratingPrompts: [
+            'Viabilidade econômica atual (relação custo-benefício e atratividade econômico-financeira favorável):',
+            'Perspectiva de redução futura de custos e ganho de escala tecnológica (Tendência de custo):',
+            'Potencial de geração líquida de empregos dignos e dinamização de renda na economia:'
+          ]
+        },
+        {
+          id: 'social',
+          dimIndex: 2,
+          title: '1.4 Comparação: Critérios da Dimensão Social (Matriz 3×3)',
+          color: 'purple',
+          tooltip: 'Avalie o peso relativo dos 3 critérios sociais.',
+          preQuestion: 'Dentro da Dimensão Social, qual destes dois critérios deve ter maior prioridade em uma transição energética justa?',
+          items: ['Acessibilidade e disponibilidade', 'Inclusão social e cultura local', 'Saúde e qualidade de vida'],
+          keys: ['acessibilidade_disponibilidade', 'inclusao_social', 'saude'],
+          descriptions: [
+            'Capacidade da rota de ampliar a oferta física e tarifariamente acessível de energia moderna e confiável para a população e atividades locais.',
+            'Contribuição para a redução de desigualdades regionais e de gênero, combatendo a pobreza energética, promovendo inclusão produtiva justa e respeitando e valorizando a cultura, os modos de vida e os saberes das comunidades locais.',
+            'Impacto positivo na saúde pública e bem-estar (ex.: redução da inalação de fumaça por queima de lenha/carvão vegetal e melhoria de serviços básicos).'
+          ],
+          ratingPrompts: [
+            'Ampliação do acesso físico/tarifário e disponibilidade de energia moderna para a população:',
+            'Potencial de inclusão social, equidade territorial/gênero, combate à pobreza energética e respeito à cultura e aos modos de vida locais:',
+            'Benefício direto para a saúde pública, segurança e qualidade de vida das famílias:'
+          ]
+        },
+        {
+          id: 'ambiental',
+          dimIndex: 3,
+          title: '1.5 Comparação: Critérios da Dimensão Ambiental (Matriz 3×3)',
+          color: 'blue',
+          tooltip: 'Avalie o peso relativo dos 3 critérios ambientais.',
+          preQuestion: 'Dentro da Dimensão Ambiental, qual destes dois critérios é mais crítico para o estudo?',
+          items: ['Emissão de GEE', 'Poluição atmosférica local', 'Recursos hídricos e resíduos'],
+          keys: ['emissao_gee', 'poluicao_atmosferica', 'recursos_hidricos_residuos'],
+          descriptions: [
+            'Potencial de mitigação e redução de emissões de gases de efeito estufa (GEE) ao longo do ciclo de vida, apoiando as metas de descarbonização.',
+            'Redução da emissão de poluentes atmosféricos locais (material particulado, NOx, SOx) que afetam a qualidade do ar urbano e rural.',
+            'Baixa pressão sobre bacias hidrográficas (consumo/qualidade da água) e minimização da geração de resíduos sólidos, rejeitos ou passivos ambientais.'
+          ],
+          ratingPrompts: [
+            'Desempenho climático (potencial de mitigação / baixas emissões de GEE no ciclo de vida):',
+            'Benefício para a qualidade do ar (baixa poluição atmosférica local por particulados/gases):',
+            'Sustentabilidade no uso de recursos hídricos e baixa geração de resíduos/rejeitos:'
+          ]
+        }
+      ]
+    };
+
+    // Os 4 Clusters Tecnológicos da ETE e suas 14 Ações/Rotas
+    const clustersData = [
+      {
+        id: 'cluster1',
+        shortName: 'Cluster 1: Sistema Renovável',
+        title: 'Cluster 1 — Sistema energético moderno baseado em fontes de energia renováveis',
+        description: 'Transitar de forma justa de um sistema energético baseado em fontes tradicionais e geração térmica para um sistema liderado por energias renováveis capaz de impulsionar a industrialização, levar ao acesso universal, incentivar o turismo e promover a economia azul.',
+        interdependencies: 'A expansão da rede nacional (Ação 2) habilita o escoamento hidroelétrico (Ação 1) e solar/eólico (Ação 3), suprindo os parques industriais verdes (Ação 5).',
+        actions: [
+          { id: 'rota1', num: 1, name: 'Desenvolvimento da energia hidroeléctrica' },
+          { id: 'rota2', num: 2, name: 'Expansão e melhoria da rede eléctrica nacional' },
+          { id: 'rota3', num: 3, name: 'Desenvolvimento da energia solar e eólica' },
+          { id: 'rota4', num: 4, name: 'Descarbonização das emissões do sector GN' }
+        ]
+      },
+      {
+        id: 'cluster2',
+        shortName: 'Cluster 2: Industrialização Verde',
+        title: 'Cluster 2 — Industrialização Verde',
+        description: 'Desenvolver indústria com baixa emissão de carbono que terá recursos energéticos e naturais de Moçambique como vantagem competitiva — energia limpa, barata e fiável em uma transição energética justa.',
+        interdependencies: 'Recebe energia limpa e firme do Cluster 1 para viabilizar parques e corredores industriais verdes (Ação 5) e cadeias intensivas em energia.',
+        actions: [
+          { id: 'rota5',  num: 5,  name: 'Desenvolvimento de parques e corredores industriais verdes' },
+          { id: 'rota6',  num: 6,  name: 'Plano Integrado do Gás Doméstico' },
+          { id: 'rota7',  num: 7,  name: 'Redução gradual da dependência do carvão mineral' },
+          { id: 'rota8',  num: 8,  name: 'Descarbonização da energia do sector da exploração mineira' },
+          { id: 'rota9',  num: 9,  name: 'Extração e processamento sustentável de minerais críticos' },
+          { id: 'rota10', num: 10, name: 'Estratégia e roadmap produção de hidrogénio' }
+        ]
+      },
+      {
+        id: 'cluster3',
+        shortName: 'Cluster 3: Acesso Universal',
+        title: 'Cluster 3 — Acesso universal às energias modernas',
+        description: 'Transitar de forma justa da dependência das famílias à lenha e ao carvão vegetal para eletricidade e soluções de cozinha limpa.',
+        interdependencies: 'Atua diretamente sobre a redução da pobreza energética rural/periurbana e mitigação do desmatamento e poluição intradomiciliar.',
+        actions: [
+          { id: 'rota11', num: 11, name: 'Aceleração do acesso à energia off-grid' },
+          { id: 'rota12', num: 12, name: 'Massificação de soluções de cozinha limpa' }
+        ]
+      },
+      {
+        id: 'cluster4',
+        shortName: 'Cluster 4: Transportes Limpos',
+        title: 'Cluster 4 — Adoção de energias limpas para transportes',
+        description: 'Transitar de um sistema de transporte dependente do petróleo e veículos particulares para o uso de biocombustíveis limpos, veículos elétricos (VEs) e movidos a gás (GNV) e transporte público acessível.',
+        interdependencies: 'O desenvolvimento da cadeia de valor dos biocombustíveis (Ação 14) fornece insumo direto para a descarbonização do sistema de transportes (Ação 13).',
+        actions: [
+          { id: 'rota13', num: 13, name: 'Descarbonização do sistema de transportes' },
+          { id: 'rota14', num: 14, name: 'Desenvolvimento da cadeia de valor dos biocombustíveis' }
+        ]
+      }
+    ];
+
+    // Estado Global da Aplicação
+    let state = {
+      pairwise: {},       // Bloco 1: matrizes par a par (dimensoes: 6 pares; tecnica/economica/social/ambiental: 3 pares cada)
+      clusterRatings: {}, // Bloco 2: notas 1..5 de cada cluster (cluster1..cluster4) em cada um dos 12 criterios
+      actionRatings: {}   // Bloco 3: notas 1..5 de cada uma das 14 rotas (rota1..rota14) dentro de seu cluster
+    };
+
+    function getPairsForSize(n) {
+      const pairs = [];
+      for (let i = 0; i < n; i++) {
+        for (let j = i + 1; j < n; j++) {
+          pairs.push([i, j]);
+        }
+      }
+      return pairs;
+    }
+
+    function initData() {
+      // Inicializa Bloco 1 (Matrizes Par a Par)
+      [hierarchy, ...hierarchy.children].forEach(section => {
+        const n = section.items.length;
+        const pairs = getPairsForSize(n);
+        state.pairwise[section.id] = {
+          n: n,
+          pairs: pairs,
+          values: new Array(pairs.length).fill(null), // null = par ainda não respondido
+          complete: false,
+          cr: null,
+          ci: null,
+          lambdaMax: null,
+          weights: null
+        };
+      });
+
+      // Inicializa Bloco 2 (Notas 1 a 5 dos 4 Clusters nos 12 Critérios -> sem nota inicial)
+      hierarchy.children.forEach(dim => {
+        dim.keys.forEach(critKey => {
+          state.clusterRatings[critKey] = {
+            cluster1: null,
+            cluster2: null,
+            cluster3: null,
+            cluster4: null
+          };
+        });
+      });
+
+      // Inicializa Bloco 3 (Notas 1 a 5 das 14 Ações dentro dos Clusters -> sem nota inicial)
+      clustersData.forEach(cluster => {
+        cluster.actions.forEach(action => {
+          state.actionRatings[action.id] = null;
+        });
+      });
+    }
+
+    // --- CONTAGEM DE PENDÊNCIAS (nenhum item vem pré-marcado) ---
+    function countProgress() {
+      let total = 0, answered = 0;
+      Object.values(state.pairwise).forEach(s => { total += s.values.length; answered += s.values.filter(v => v !== null).length; });
+      Object.values(state.clusterRatings).forEach(obj => Object.values(obj).forEach(v => { total++; if (v !== null) answered++; }));
+      Object.values(state.actionRatings).forEach(v => { total++; if (v !== null) answered++; });
+      return { total, answered };
+    }
+
+    function getMissingItems() {
+      const missing = []; // { block, label, elId }
+      [hierarchy, ...hierarchy.children].forEach(s => {
+        const st = state.pairwise[s.id];
+        st.values.forEach((v, idx) => {
+          if (v === null) missing.push({ block: 1, label: `${s.title.split(' ')[0]} par ${idx + 1}`, elId: `pair-row-${s.id}-${idx}` });
+        });
+      });
+      hierarchy.children.forEach(dim => dim.keys.forEach((k, cIdx) => {
+        clustersData.forEach(cl => {
+          if (state.clusterRatings[k][cl.id] === null) missing.push({ block: 2, label: `${dim.dimIndex + 1}.${cIdx + 1} ${dim.items[cIdx]} — ${cl.shortName.split(':')[0]}`, elId: `rating-box-${k}-${cl.id}` });
+        });
+      }));
+      clustersData.forEach(cl => cl.actions.forEach(a => {
+        if (state.actionRatings[a.id] === null) missing.push({ block: 3, label: `Rota ${a.num}`, elId: `action-box-${a.id}` });
+      }));
+      return missing;
+    }
+
+    function markAnswered(elId) {
+      const el = document.getElementById(elId);
+      if (el) el.classList.remove('ring-2', 'ring-red-400', 'bg-red-50');
+    }
+
+    // --- Notificações In-Page (substitui alert para compatibilidade total com Canvas) ---
+    let toastTimer = null;
+    function showToast(title, message, type = 'error') {
+      const container = document.getElementById('toast-container');
+      const box = document.getElementById('toast-box');
+      const icon = document.getElementById('toast-icon');
+      const titleEl = document.getElementById('toast-title');
+      const msgEl = document.getElementById('toast-message');
+
+      box.className = 'rounded-xl shadow-xl border p-4 flex items-start gap-3 bg-white ';
+      if (type === 'error') {
+        box.classList.add('border-red-300', 'ring-2', 'ring-red-100');
+        icon.innerHTML = '<svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>';
+      } else if (type === 'success') {
+        box.classList.add('border-emerald-300', 'ring-2', 'ring-emerald-100');
+        icon.innerHTML = '<svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+      } else {
+        box.classList.add('border-blue-300', 'ring-2', 'ring-blue-100');
+        icon.innerHTML = '<svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+      }
+
+      titleEl.textContent = title;
+      msgEl.textContent = message;
+      container.classList.remove('hidden');
+
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        hideToast();
+      }, 7000);
+    }
+
+    function hideToast() {
+      const container = document.getElementById('toast-container');
+      container.classList.add('hidden');
+    }
+
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // --- CÁLCULO MATEMÁTICO AHP PARA MATRIZES N×N (N=3 e N=4) ---
+    function calculateAHP(sectionId) {
+      const secState = state.pairwise[sectionId];
+      const n = secState.n;
+      const pairs = secState.pairs;
+      const vals = secState.values;
+
+      // Só calcula pesos e CR quando todos os pares do cartão foram respondidos
+      secState.complete = vals.every(v => v !== null);
+      if (!secState.complete) {
+        secState.weights = null;
+        secState.lambdaMax = null;
+        secState.ci = null;
+        secState.cr = null;
+        updatePairwiseUI(sectionId);
+        updateGlobalConsistencyPill();
+        return;
+      }
+
+      // Construir matriz recíproca n x n
+      let matrix = Array.from({ length: n }, () => new Array(n).fill(1));
+      pairs.forEach((pair, idx) => {
+        const r = pair[0];
+        const c = pair[1];
+        matrix[r][c] = vals[idx];
+        matrix[c][r] = 1 / vals[idx];
+      });
+
+      // Soma das colunas e normalização
+      let colSums = new Array(n).fill(0);
+      for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+          colSums[j] += matrix[i][j];
+        }
+      }
+
+      let weights = new Array(n).fill(0);
+      for (let i = 0; i < n; i++) {
+        let rowSum = 0;
+        for (let j = 0; j < n; j++) {
+          rowSum += matrix[i][j] / colSums[j];
+        }
+        weights[i] = rowSum / n;
+      }
+
+      // Cálculo de A * w e Lambda Max
+      let lambdaMax = 0;
+      for (let i = 0; i < n; i++) {
+        let aw_i = 0;
+        for (let j = 0; j < n; j++) {
+          aw_i += matrix[i][j] * weights[j];
+        }
+        lambdaMax += (aw_i / weights[i]) / n;
+      }
+
+      const ci = n > 1 ? (lambdaMax - n) / (n - 1) : 0;
+      const ri = RI_TABLE[n] || 0.90;
+      let cr = ri > 0 ? ci / ri : 0;
+      if (cr < 0 || Math.abs(cr) < 1e-9) cr = 0;
+
+      secState.weights = weights;
+      secState.lambdaMax = lambdaMax;
+      secState.ci = ci;
+      secState.cr = cr;
+
+      updatePairwiseUI(sectionId);
+      updateGlobalConsistencyPill();
+    }
+
+    function getBadgeColors(color) {
+      const map = {
+        'slate':   'bg-slate-800 text-white',
+        'amber':   'bg-amber-600 text-white',
+        'emerald': 'bg-emerald-600 text-white',
+        'purple':  'bg-purple-600 text-white',
+        'blue':    'bg-blue-600 text-white'
+      };
+      return map[color] || map['slate'];
+    }
+
+    // --- RENDERIZAÇÃO DO BLOCO 1 (COMPARAÇÃO PAR A PAR) ---
+    function createPairwiseSectionHTML(section) {
+      const n = section.items.length;
+      const pairs = getPairsForSize(n);
+      const gridCols = n === 4 ? 'md:grid-cols-4' : 'md:grid-cols-3';
+
+      let html = `
+        <div class="border border-slate-200 rounded-xl shadow-sm bg-white overflow-hidden" id="card-${section.id}">
+          <div class="${getBadgeColors(section.color)} p-4 flex flex-col md:flex-row justify-between items-center gap-3">
+            <div class="tooltip cursor-help flex items-center gap-2">
+              <h3 class="text-base sm:text-lg font-bold">${section.title}</h3>
+              <svg class="w-5 h-5 opacity-80 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span class="tooltip-text">${section.tooltip}</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="text-xs sm:text-sm font-medium">Consistência (CR):</span>
+              <div class="tooltip tooltip-safe-right cursor-help">
+                <span id="cr-badge-${section.id}" class="px-3 py-1 rounded-full text-xs sm:text-sm font-bold bg-gray-200 text-gray-800 flex items-center gap-1">
+                  0/${pairs.length} pares
+                  <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </span>
+                <span class="tooltip-text">A Razão de Consistência (CR) avalia se suas comparações são logicamente transitivas (RI = ${RI_TABLE[n].toFixed(2)} para matriz ${n}×${n}). Deve ser &le; 10% (0.10).</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-5 sm:p-6">
+      `;
+
+      if (section.preQuestion) {
+        html += `
+          <div class="mb-5 p-3.5 bg-slate-50 border-l-4 border-slate-500 rounded-r-lg shadow-sm">
+            <p class="text-slate-800 text-xs sm:text-sm md:text-base italic">
+              <span class="font-bold not-italic">Pergunta:</span> "${section.preQuestion}"
+            </p>
+          </div>`;
+      }
+
+      if (section.descriptions) {
+        html += `<div class="mb-6 grid grid-cols-1 ${gridCols} gap-3">`;
+        section.items.forEach((item, idx) => {
+          html += `
+            <div class="bg-slate-50 border border-slate-200 p-3 text-xs rounded-lg text-slate-700 leading-relaxed shadow-sm flex flex-col justify-between">
+              <div>
+                <strong class="block mb-1 text-slate-900 text-xs sm:text-sm">${item}:</strong>
+                <span>${section.descriptions[idx]}</span>
+              </div>
+              <div class="mt-2 pt-2 border-t border-slate-200/80 flex justify-between items-center text-[11px] font-semibold text-slate-600">
+                <span>Peso calculado:</span>
+                <span id="weight-pill-${section.id}-${idx}" class="px-2 py-0.5 rounded bg-white border border-slate-200 text-slate-800">—</span>
+              </div>
+            </div>`;
+        });
+        html += `</div>`;
+      }
+
+      pairs.forEach((pair, idx) => {
+        const item1 = section.items[pair[0]];
+        const item2 = section.items[pair[1]];
+
+        html += `
+          <div id="pair-row-${section.id}-${idx}" class="mb-7 last:mb-0 rounded-lg transition-colors">
+            <div class="flex justify-between items-center mb-3 text-xs sm:text-sm md:text-base font-bold text-slate-800">
+              <div class="w-5/12 text-right pr-3">${item1}</div>
+              <div class="w-2/12 text-center text-slate-400 text-[11px] uppercase tracking-wider font-semibold">Par ${idx + 1}/${pairs.length}<br>vs</div>
+              <div class="w-5/12 text-left pl-3">${item2}</div>
+            </div>
+
+            <div class="scale-container w-full overflow-x-auto pb-3">
+              <div class="min-w-[640px] flex justify-between items-end px-2">
+        `;
+
+        scaleLabels.forEach((label, i) => {
+          const isCenter = i === 8;
+          const radioId = `radio-${section.id}-${idx}-${i}`;
+
+          html += `
+            <label for="${radioId}" class="flex flex-col items-center cursor-pointer group flex-1">
+              <span class="text-xs font-bold mb-1.5 ${isCenter ? 'text-slate-600 bg-slate-200 px-1.5 py-0.5 rounded' : 'text-blue-700'} group-hover:text-blue-500">${label}</span>
+              <input type="radio" id="${radioId}" name="pair-${section.id}-${idx}" value="${i}"
+                onchange="handlePairwiseSelection('${section.id}', ${idx}, ${i})"
+                class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 focus:ring-blue-500 cursor-pointer">
+            </label>
+          `;
+        });
+
+        html += `
+              </div>
+              <div class="flex justify-between text-[11px] font-medium text-slate-500 mt-2.5 min-w-[640px] px-2">
+                <span>&larr; Maior peso para ${item1}</span>
+                <span>Igual importância (1)</span>
+                <span>Maior peso para ${item2} &rarr;</span>
+              </div>
+            </div>
+          </div>
+          ${idx < pairs.length - 1 ? '<hr class="my-5 border-slate-100">' : ''}
+        `;
+      });
+
+      html += `</div></div>`;
+      return html;
+    }
+
+    // --- RENDERIZAÇÃO DO BLOCO 2 (4 CLUSTERS × 12 CRITÉRIOS VIA AHP RATINGS 1..5) ---
+    function createBloco2HTML() {
+      let html = '';
+
+      hierarchy.children.forEach(dim => {
+        html += `
+          <div class="border border-slate-200 rounded-xl shadow-sm bg-white overflow-hidden">
+            <div class="${getBadgeColors(dim.color)} p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+              <div>
+                <h3 class="text-base sm:text-lg font-bold">Avaliação dos 4 Clusters na ${hierarchy.items[dim.dimIndex]}</h3>
+                <p class="text-xs opacity-90">Atribua uma nota de 1 (Muito Baixo) a 5 (Muito Alto) para cada Cluster nos 3 critérios abaixo.</p>
+              </div>
+              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-black/20 text-white">3 Critérios × 4 Clusters</span>
+            </div>
+
+            <div class="p-4 sm:p-6 space-y-6">
+        `;
+
+        dim.items.forEach((critName, cIdx) => {
+          const critKey = dim.keys[cIdx];
+          const promptText = dim.ratingPrompts[cIdx];
+
+          html += `
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
+              <div class="mb-3 border-b border-slate-200 pb-2">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <h4 class="font-bold text-slate-900 text-sm sm:text-base">${critName}</h4>
+                  <span class="text-[11px] font-medium text-slate-500 bg-white px-2.5 py-0.5 rounded border border-slate-200">
+                    Critério ${dim.dimIndex + 1}.${cIdx + 1}
+                  </span>
+                </div>
+                <p class="text-xs text-slate-600 mt-1">${promptText}</p>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          `;
+
+          clustersData.forEach(cluster => {
+            const currentVal = state.clusterRatings[critKey][cluster.id];
+            html += `
+              <div id="rating-box-${critKey}-${cluster.id}" class="bg-white border border-slate-200 rounded-lg p-3 flex flex-col justify-between gap-2 shadow-sm transition-colors">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="font-bold text-xs sm:text-sm text-slate-800">${cluster.shortName}</span>
+                  <span id="lbl-rating-${critKey}-${cluster.id}" class="text-[11px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-500 border border-slate-200">
+                    Sem nota
+                  </span>
+                </div>
+                <div class="grid grid-cols-5 gap-1 pt-1">
+            `;
+
+            RATING_SCALE.forEach(r => {
+              const rId = `cr-${critKey}-${cluster.id}-${r.level}`;
+              const checked = currentVal === r.level ? 'checked' : '';
+              html += `
+                <label for="${rId}" class="cursor-pointer">
+                  <input type="radio" id="${rId}" name="cr-${critKey}-${cluster.id}" value="${r.level}" ${checked}
+                    onchange="handleClusterRating('${critKey}', '${cluster.id}', ${r.level})"
+                    class="peer sr-only">
+                  <div class="text-center py-1.5 px-1 rounded border border-slate-200 bg-slate-50 text-slate-700 text-xs font-semibold peer-checked:bg-emerald-600 peer-checked:text-white peer-checked:border-emerald-700 hover:bg-slate-100 transition-all">
+                    ${r.short}
+                  </div>
+                </label>
+              `;
+            });
+
+            html += `
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 px-0.5">
+                  <span>1: Muito Baixo</span>
+                  <span>3: Moderado</span>
+                  <span>5: Muito Alto</span>
+                </div>
+              </div>
+            `;
+          });
+
+          html += `
+              </div>
+            </div>
+          `;
+        });
+
+        html += `</div></div>`;
+      });
+
+      return html;
+    }
+
+    // --- RENDERIZAÇÃO DO BLOCO 3 (PRIORIZAÇÃO INTRA-CLUSTER DAS 14 AÇÕES) ---
+    function createBloco3HTML() {
+      let html = '';
+
+      clustersData.forEach(cluster => {
+        html += `
+          <div class="border border-slate-200 rounded-xl shadow-sm bg-white overflow-hidden flex flex-col">
+            <div class="bg-teal-900 text-white p-4">
+              <div class="flex items-center justify-between gap-2 mb-1">
+                <h3 class="text-sm sm:text-base font-bold">${cluster.title}</h3>
+                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-teal-700 text-teal-100 shrink-0">
+                  ${cluster.actions.length} rotas
+                </span>
+              </div>
+              <p class="text-xs text-teal-100 leading-relaxed">${cluster.description}</p>
+              <p class="text-[11px] text-amber-200 mt-1.5 italic">Interdependência: ${cluster.interdependencies}</p>
+            </div>
+
+            <div class="p-4 sm:p-5 space-y-3 flex-1 flex flex-col justify-between">
+              <div class="space-y-3">
+        `;
+
+        cluster.actions.forEach(action => {
+          const currentVal = state.actionRatings[action.id];
+
+          html += `
+            <div id="action-box-${action.id}" class="bg-slate-50 border border-slate-200 rounded-lg p-3 transition-colors">
+              <div class="flex flex-wrap items-start justify-between gap-2 mb-2">
+                <div class="flex-1">
+                  <span class="inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-100 text-emerald-900 border border-emerald-300 mb-1">
+                    Rota Tecnológica ${action.num}
+                  </span>
+                  <h4 class="font-bold text-slate-800 text-xs sm:text-sm">${action.num}. ${action.name}</h4>
+                </div>
+                <div class="text-right shrink-0">
+                  <span id="action-share-${action.id}" class="text-xs font-bold px-2.5 py-1 rounded bg-amber-100 text-amber-900 border border-amber-300 inline-block">
+                    Peso no Cluster: —
+                  </span>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-5 gap-1.5 pt-1">
+          `;
+
+          RATING_SCALE.forEach(r => {
+            const aId = `ar-${action.id}-${r.level}`;
+            const checked = currentVal === r.level ? 'checked' : '';
+            html += `
+              <label for="${aId}" class="cursor-pointer">
+                <input type="radio" id="${aId}" name="ar-${action.id}" value="${r.level}" ${checked}
+                  onchange="handleActionRating('${cluster.id}', '${action.id}', ${r.level})"
+                  class="peer sr-only">
+                <div class="text-center py-1.5 px-1 rounded border border-slate-200 bg-white text-slate-700 text-xs font-semibold peer-checked:bg-amber-600 peer-checked:text-white peer-checked:border-amber-700 hover:bg-slate-100 transition-all">
+                  ${r.label.split(' - ')[0]} <span class="hidden sm:inline text-[10px] font-normal">(${r.label.split(' - ')[1]})</span>
+                </div>
+              </label>
+            `;
+          });
+
+          html += `
+              </div>
+            </div>
+          `;
+        });
+
+        html += `
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      return html;
+    }
+
+    function renderForm() {
+      initData();
+
+      // Renderiza Bloco 1
+      const c1 = document.getElementById('form-bloco1-container');
+      let html1 = createPairwiseSectionHTML(hierarchy);
+      hierarchy.children.forEach(child => { html1 += createPairwiseSectionHTML(child); });
+      c1.innerHTML = html1;
+
+      // Renderiza Bloco 2
+      document.getElementById('form-bloco2-container').innerHTML = createBloco2HTML();
+
+      // Renderiza Bloco 3
+      document.getElementById('form-bloco3-container').innerHTML = createBloco3HTML();
+
+      // Atualiza pesos intra-cluster iniciais
+      clustersData.forEach(cluster => updateClusterActionShares(cluster.id));
+    }
+
+    // --- HANDLERS DE INTERAÇÃO ---
+    function onAnswerChanged() {
+      // Qualquer alteração depois de validar invalida o resumo ainda não enviado
+      if (window.currentResults && !window.currentResults.sent) window.currentResults = null;
+      updateGlobalConsistencyPill();
+    }
+
+    function handlePairwiseSelection(sectionId, pairIndex, scaleIndex) {
+      state.pairwise[sectionId].values[pairIndex] = scaleValues[scaleIndex];
+      markAnswered(`pair-row-${sectionId}-${pairIndex}`);
+      calculateAHP(sectionId);
+      onAnswerChanged();
+    }
+
+    function handleClusterRating(critKey, clusterId, level) {
+      state.clusterRatings[critKey][clusterId] = level;
+      const lbl = document.getElementById(`lbl-rating-${critKey}-${clusterId}`);
+      if (lbl) {
+        lbl.textContent = `Nota ${level} (Peso: ${RATING_SCALE[level - 1].ideal.toFixed(3)})`;
+        lbl.className = 'text-[11px] font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200';
+      }
+      markAnswered(`rating-box-${critKey}-${clusterId}`);
+      onAnswerChanged();
+    }
+
+    function handleActionRating(clusterId, actionId, level) {
+      state.actionRatings[actionId] = level;
+      markAnswered(`action-box-${actionId}`);
+      updateClusterActionShares(clusterId);
+      onAnswerChanged();
+    }
+
+    function updateClusterActionShares(clusterId) {
+      const cluster = clustersData.find(c => c.id === clusterId);
+      if (!cluster) return;
+
+      // O peso intra-cluster só é exibido quando todas as rotas do cluster receberam nota
+      const allRated = cluster.actions.every(a => state.actionRatings[a.id] !== null);
+      let sumIdeal = 0;
+      if (allRated) {
+        cluster.actions.forEach(a => { sumIdeal += RATING_SCALE[state.actionRatings[a.id] - 1].ideal; });
+      }
+
+      cluster.actions.forEach(a => {
+        const badge = document.getElementById(`action-share-${a.id}`);
+        if (!badge) return;
+        if (!allRated) {
+          badge.textContent = 'Peso no Cluster: —';
+          return;
+        }
+        const share = (RATING_SCALE[state.actionRatings[a.id] - 1].ideal / sumIdeal) * 100;
+        badge.textContent = `Peso no Cluster: ${share.toFixed(1)}%`;
+      });
+    }
+
+    function updatePairwiseUI(sectionId) {
+      const secState = state.pairwise[sectionId];
+      const cr = secState.cr;
+      const badge = document.getElementById(`cr-badge-${sectionId}`);
+      const card = document.getElementById(`card-${sectionId}`);
+      const infoSvg = '<svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+
+      badge.classList.remove('bg-gray-200', 'text-gray-800', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+      card.classList.remove('ring-2', 'ring-red-400');
+
+      if (!secState.complete) {
+        const done = secState.values.filter(v => v !== null).length;
+        badge.innerHTML = `${done}/${secState.values.length} pares ${infoSvg}`;
+        badge.classList.add('bg-gray-200', 'text-gray-800');
+        for (let idx = 0; idx < secState.n; idx++) {
+          const wPill = document.getElementById(`weight-pill-${sectionId}-${idx}`);
+          if (wPill) wPill.textContent = '—';
+        }
+        return;
+      }
+
+      const perc = (cr * 100).toFixed(1);
+      badge.innerHTML = `${perc}% <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+
+      if (cr <= 0.10) {
+        badge.classList.add('bg-green-100', 'text-green-800');
+      } else {
+        badge.classList.add('bg-red-100', 'text-red-800');
+        card.classList.add('ring-2', 'ring-red-400');
+      }
+
+      // Atualiza pílulas de peso parcial dos itens do cartão
+      secState.weights.forEach((w, idx) => {
+        const wPill = document.getElementById(`weight-pill-${sectionId}-${idx}`);
+        if (wPill) {
+          wPill.textContent = `${(w * 100).toFixed(1)}%`;
+        }
+      });
+    }
+
+    function updateGlobalConsistencyPill() {
+      const pill = document.getElementById('global-status-pill');
+      const sections = [hierarchy, ...hierarchy.children];
+      const invalid = sections.filter(s => state.pairwise[s.id].complete && state.pairwise[s.id].cr > 0.10);
+      const prog = countProgress();
+
+      if (invalid.length === 0 && prog.answered < prog.total) {
+        pill.className = 'text-xs font-semibold px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-300';
+        pill.textContent = `Respondidos: ${prog.answered} de ${prog.total}`;
+      } else if (invalid.length === 0) {
+        pill.className = 'text-xs font-semibold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200';
+        pill.textContent = 'Matrizes Consistentes (CR \u2264 10%)';
+      } else {
+        pill.className = 'text-xs font-semibold px-3 py-1 rounded-full bg-red-100 text-red-800 border border-red-300';
+        pill.textContent = `Atenção: ${invalid.length} matriz(es) com CR > 10% • ${prog.answered}/${prog.total} respondidos`;
+      }
+    }
+
+    function generateID() {
+      return 'ETE-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+    }
+
+    // --- SÍNTESE MULTICRITÉRIO COMPLETA (BLOCOS 1 + 2 + 3) ---
+    function computeFullSynthesis() {
+      const dimWeights = state.pairwise['dimensoes'].weights;
+      let criteriaList = [];
+
+      // 1. Pesos globais dos 12 critérios
+      hierarchy.children.forEach((dim, dIdx) => {
+        const wDim = dimWeights[dIdx];
+        const localWeights = state.pairwise[dim.id].weights;
+        dim.items.forEach((critName, cIdx) => {
+          const wLocal = localWeights[cIdx];
+          const wGlobal = wDim * wLocal;
+          criteriaList.push({
+            key: dim.keys[cIdx],
+            name: critName,
+            dimId: dim.id,
+            dimName: hierarchy.items[dIdx],
+            wDim: wDim,
+            wLocal: wLocal,
+            wGlobal: wGlobal
+          });
+        });
+      });
+
+      // 2. Pontuação Multicritério dos 4 Clusters (Bloco 2 ponderado pelo Bloco 1)
+      let clusterScores = [];
+      let sumClusterScores = 0;
+
+      clustersData.forEach(cluster => {
+        let scoreIdeal = 0; // Em [0.150, 1.000]
+        let dimBreakdown = { tecnica: 0, economica: 0, social: 0, ambiental: 0 };
+
+        criteriaList.forEach(crit => {
+          const ratingLevel = state.clusterRatings[crit.key][cluster.id] || 3;
+          const rIdeal = RATING_SCALE[ratingLevel - 1].ideal;
+          const contrib = crit.wGlobal * rIdeal;
+          scoreIdeal += contrib;
+          dimBreakdown[crit.dimId] += contrib;
+        });
+
+        sumClusterScores += scoreIdeal;
+        clusterScores.push({
+          id: cluster.id,
+          shortName: cluster.shortName,
+          title: cluster.title,
+          scoreIdeal: scoreIdeal,
+          shareNorm: 0, // Preenchido a seguir
+          dimBreakdown: dimBreakdown
+        });
+      });
+
+      clusterScores.forEach(cs => {
+        cs.shareNorm = sumClusterScores > 0 ? cs.scoreIdeal / sumClusterScores : 0.25;
+      });
+
+      // 3. Pontuação Global e Decomposta das 14 Rotas Tecnológicas (Bloco 3 integrado ao Bloco 2)
+      let routeScores = [];
+      let sumCombinedIndex = 0;
+
+      clustersData.forEach(cluster => {
+        const cScoreObj = clusterScores.find(c => c.id === cluster.id);
+        let sumLocalIdeal = 0;
+        cluster.actions.forEach(action => {
+          const lvl = state.actionRatings[action.id] || 3;
+          sumLocalIdeal += RATING_SCALE[lvl - 1].ideal;
+        });
+
+        cluster.actions.forEach(action => {
+          const lvl = state.actionRatings[action.id] || 3;
+          const rActionIdeal = RATING_SCALE[lvl - 1].ideal;
+          const localShare = sumLocalIdeal > 0 ? rActionIdeal / sumLocalIdeal : (1 / cluster.actions.length);
+
+          // Índice Combinado Idealizado: Score do Cluster (0..1) * Peso Ideal da Ação (0.15..1.00)
+          const combinedIndex = cScoreObj.scoreIdeal * rActionIdeal;
+          // Participação Hierárquica Decomposta (soma das 14 rotas = 100%)
+          const decomposedGlobalWeight = cScoreObj.shareNorm * localShare;
+
+          sumCombinedIndex += combinedIndex;
+
+          routeScores.push({
+            id: action.id,
+            num: action.num,
+            name: action.name,
+            clusterId: cluster.id,
+            clusterShortName: cluster.shortName,
+            ratingLevel: lvl,
+            rActionIdeal: rActionIdeal,
+            localShare: localShare,
+            clusterScoreIdeal: cScoreObj.scoreIdeal,
+            clusterShareNorm: cScoreObj.shareNorm,
+            combinedIndex: combinedIndex,
+            decomposedGlobalWeight: decomposedGlobalWeight,
+            adjustedGlobalShare: 0
+          });
+        });
+      });
+
+      routeScores.forEach(rs => {
+        rs.adjustedGlobalShare = sumCombinedIndex > 0 ? rs.combinedIndex / sumCombinedIndex : (1 / 14);
+      });
+
+      return {
+        dimWeights: dimWeights,
+        criteriaList: criteriaList,
+        clusterScores: clusterScores,
+        routeScores: routeScores
+      };
+    }
+
+    function validateAndShowResults() {
+      // 0. Resposta já enviada nesta página: apenas reabre o resumo
+      if (window.currentResults && window.currentResults.sent) {
+        openModal();
+        return;
+      }
+
+      // 1. Nome obrigatório (necessário para comparar as rodadas)
+      const nomeEl = document.getElementById('nome-especialista');
+      if (!nomeEl.value.trim()) {
+        showToast('Nome obrigatório', 'Por favor, informe o seu nome completo no início do formulário. Use a mesma grafia nas duas rodadas.', 'error');
+        nomeEl.classList.add('ring-2', 'ring-red-400');
+        nomeEl.addEventListener('input', () => nomeEl.classList.remove('ring-2', 'ring-red-400'), { once: true });
+        document.getElementById('box-nome').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        nomeEl.focus({ preventScroll: true });
+        return;
+      }
+
+      // 2. Todos os itens dos 3 blocos precisam ter sido clicados (nada vem pré-marcado)
+      const missing = getMissingItems();
+      if (missing.length > 0) {
+        missing.forEach(m => {
+          const el = document.getElementById(m.elId);
+          if (el) el.classList.add('ring-2', 'ring-red-400', 'bg-red-50');
+        });
+        const byBlock = [1, 2, 3].map(b => ({ b, n: missing.filter(m => m.block === b).length })).filter(x => x.n > 0);
+        showToast(
+          `Faltam ${missing.length} resposta(s)`,
+          byBlock.map(x => `• Bloco ${x.b}: ${x.n} item(ns) sem resposta`).join('\n') + '\n\nOs itens pendentes foram destacados em vermelho.',
+          'error'
+        );
+        const first = document.getElementById(missing[0].elId);
+        if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      // 3. Verificar resposta obrigatória da Pergunta 1 de suficiência
+      const suficienciaRadio = document.querySelector('input[name="suficiencia"]:checked');
+      if (!suficienciaRadio) {
+        showToast(
+          'Campo obrigatório pendente',
+          'Por favor, responda à Pergunta 1 sobre a suficiência do modelo (Escala de 1 a 5) na seção final antes de concluir.',
+          'error'
+        );
+        document.getElementById('box-suficiencia').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      // 2. Verificar consistência lógica (CR <= 10%) nas 5 matrizes do Bloco 1
+      let invalidSections = [];
+      let firstInvalidId = null;
+      const sections = [hierarchy, ...hierarchy.children];
+
+      sections.forEach(s => {
+        if (state.pairwise[s.id].cr > 0.10) {
+          invalidSections.push(`${s.title} (CR atual: ${(state.pairwise[s.id].cr * 100).toFixed(1)}%)`);
+          if (!firstInvalidId) firstInvalidId = s.id;
+        }
+      });
+
+      if (invalidSections.length > 0) {
+        showToast(
+          'Alerta de Inconsistência no Bloco 1 (CR > 10%)',
+          'Revise as comparações nas seguintes seções:\n• ' + invalidSections.join('\n• ') + '\n\nDica: Evite contradições circulares (se A > B e B > C, A deve ser maior que C).',
+          'error'
+        );
+        const targetCard = document.getElementById(`card-${firstInvalidId}`);
+        if (targetCard) targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      const synthesis = computeFullSynthesis();
+      const respostaID = generateID();
+
+      window.currentResults = {
+        id: respostaID,
+        sent: false,
+        rodada: RODADA,
+        timestamp: new Date().toLocaleString('pt-BR'),
+        nome: document.getElementById('nome-especialista').value.trim().replace(/\s+/g, ' '),
+        instituicao: document.getElementById('inst-especialista').value.trim() || 'Não informado',
+        areaAtuacao: document.getElementById('area-especialista').value.trim() || 'Não informado',
+        suficiencia: suficienciaRadio.value,
+        criteriosFaltantes: document.getElementById('criterios_faltantes').value || 'Nenhum',
+        comentariosFinais: document.getElementById('comentarios_finais').value || 'Nenhum',
+        cr: {
+          dimensoes: state.pairwise['dimensoes'].cr,
+          tecnica: state.pairwise['tecnica'].cr,
+          economica: state.pairwise['economica'].cr,
+          social: state.pairwise['social'].cr,
+          ambiental: state.pairwise['ambiental'].cr
+        },
+        synthesis: synthesis,
+        respostasBrutas: JSON.parse(JSON.stringify(state)) // cópia congelada no momento da validação
+      };
+
+      renderModalContent();
+      resetSendButton();
+      openModal();
+    }
+
+    function openModal() {
+      const modal = document.getElementById('result-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function renderModalContent() {
+      const res = window.currentResults;
+      const syn = res.synthesis;
+      const content = document.getElementById('modal-content');
+      document.getElementById('modal-subtitle').textContent = `Rodada ${res.rodada} • Protocolo ${res.id}`;
+
+      const sortedCriteria = [...syn.criteriaList].sort((a, b) => b.wGlobal - a.wGlobal);
+      const sortedClusters = [...syn.clusterScores].sort((a, b) => b.scoreIdeal - a.scoreIdeal);
+      const sortedRoutes   = [...syn.routeScores].sort((a, b) => b.combinedIndex - a.combinedIndex);
+      const maxRouteShare  = Math.max(...sortedRoutes.map(r => r.adjustedGlobalShare), 0.01);
+      const pct = (v, d = 1) => (v * 100).toFixed(d).replace('.', ',') + '%';
+
+      const routeRow = (r, idx) => `
+        <li class="py-1.5">
+          <div class="flex justify-between items-center gap-2 text-xs">
+            <span class="text-slate-800 truncate"><strong>${idx + 1}º</strong> ${r.num}. ${r.name}</span>
+            <span class="font-bold text-emerald-700 shrink-0">${pct(r.adjustedGlobalShare)}</span>
+          </div>
+          <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mt-1">
+            <div class="bg-emerald-600 h-1.5 rounded-full" style="width:${Math.max(4, (r.adjustedGlobalShare / maxRouteShare) * 100).toFixed(1)}%"></div>
+          </div>
+        </li>`;
+
+      let html = `
+        <p class="text-xs sm:text-sm text-slate-600 mb-3">
+          Todas as matrizes estão consistentes (CR &le; 10%). Confira o resumo e toque em <strong>Confirmar e Enviar Resposta</strong> abaixo.
+        </p>
+
+        <h3 class="text-sm font-bold text-slate-800 mb-1.5">Clusters</h3>
+        <ol class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 mb-4">
+          ${sortedClusters.map((c, idx) => `
+            <li class="flex justify-between items-center text-xs bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5">
+              <span class="text-slate-800"><strong>${idx + 1}º</strong> ${c.shortName}</span>
+              <span class="font-bold text-emerald-700">${pct(c.shareNorm)}</span>
+            </li>`).join('')}
+        </ol>
+
+        <h3 class="text-sm font-bold text-slate-800 mb-0.5">5 rotas com maior prioridade</h3>
+        <ol class="divide-y divide-slate-100 mb-3">
+          ${sortedRoutes.slice(0, 5).map(routeRow).join('')}
+        </ol>
+
+        <details class="group border border-slate-200 rounded-lg mb-2">
+          <summary class="cursor-pointer select-none text-xs font-semibold text-blue-700 px-3 py-2">Ver ranking completo das 14 rotas</summary>
+          <ol class="divide-y divide-slate-100 px-3 pb-2">
+            ${sortedRoutes.map(routeRow).join('')}
+          </ol>
+          <p class="text-[11px] text-slate-500 px-3 pb-2">Ordenado pelo Índice Combinado AHP (score do Cluster × prioridade da rota no Cluster).</p>
+        </details>
+
+        <details class="group border border-slate-200 rounded-lg">
+          <summary class="cursor-pointer select-none text-xs font-semibold text-blue-700 px-3 py-2">Ver pesos das dimensões e dos 12 critérios</summary>
+          <div class="px-3 pb-3">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 mb-2">
+              ${hierarchy.items.map((d, i) => `
+                <div class="text-center bg-slate-50 border border-slate-200 rounded-lg py-1.5">
+                  <span class="block text-[11px] text-slate-500">${d.replace('Dimensão ', '')}</span>
+                  <span class="text-sm font-bold text-slate-800">${pct(syn.dimWeights[i])}</span>
+                </div>`).join('')}
+            </div>
+            <p class="text-[11px] text-slate-500 mb-1">CR das dimensões: ${pct(res.cr.dimensoes)}</p>
+            <ul class="divide-y divide-slate-100">
+              ${sortedCriteria.map(c => `
+                <li class="flex justify-between text-xs py-1">
+                  <span class="text-slate-800">${c.name} <span class="text-slate-400">(${c.dimName.replace('Dimensão ', '')})</span></span>
+                  <span class="font-bold text-blue-700">${pct(c.wGlobal)}</span>
+                </li>`).join('')}
+            </ul>
+          </div>
+        </details>
+      `;
+
+      content.innerHTML = html;
+      content.scrollTop = 0;
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('result-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    function buildPayload() {
+      const res = window.currentResults;
+      const syn = res.synthesis;
+
+      let critWeightsObj = {};
+      syn.criteriaList.forEach(c => {
+        critWeightsObj['w_' + c.key] = c.wGlobal;
+      });
+
+      let clusterScoresObj = {};
+      syn.clusterScores.forEach(cs => {
+        clusterScoresObj['score_ideal_' + cs.id] = cs.scoreIdeal;
+        clusterScoresObj['share_norm_' + cs.id] = cs.shareNorm;
+      });
+
+      let routeScoresObj = {};
+      syn.routeScores.forEach(rs => {
+        routeScoresObj['indice_comb_' + rs.id] = rs.combinedIndex;
+        routeScoresObj['peso_decomp_' + rs.id] = rs.decomposedGlobalWeight;
+        routeScoresObj['peso_ajust_' + rs.id] = rs.adjustedGlobalShare;
+      });
+
+      return {
+        timestamp_cliente: res.timestamp,
+        id: res.id,
+        rodada: res.rodada,
+        versao_formulario: VERSAO_FORMULARIO,
+        nome: res.nome,
+        instituicao: res.instituicao,
+        areaAtuacao: res.areaAtuacao,
+        suficiencia: res.suficiencia,
+        criteriosFaltantes: res.criteriosFaltantes,
+        comentariosFinais: res.comentariosFinais,
+        peso_dim_tec: syn.dimWeights[0],
+        peso_dim_eco: syn.dimWeights[1],
+        peso_dim_soc: syn.dimWeights[2],
+        peso_dim_amb: syn.dimWeights[3],
+        cr_dim: res.cr.dimensoes,
+        cr_tec: res.cr.tecnica,
+        cr_eco: res.cr.economica,
+        cr_soc: res.cr.social,
+        cr_amb: res.cr.ambiental,
+        ...critWeightsObj,
+        ...clusterScoresObj,
+        ...routeScoresObj,
+        brutos: JSON.stringify(res.respostasBrutas)
+      };
+    }
+
+    function triggerDownload(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    function downloadResultsJSON() {
+      if (!window.currentResults) return;
+      const payload = buildPayload();
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8;' });
+      triggerDownload(blob, `avaliacao_ahp_ete_R${RODADA}_${window.currentResults.id}.json`);
+    }
+
+    function downloadResultsCSV() {
+      if (!window.currentResults) return;
+      const syn = window.currentResults.synthesis;
+      const q = s => `"${String(s).replace(/"/g, '""')}"`;
+      let lines = ['Categoria,Codigo_ou_Ordem,Item,Peso_ou_Score_Ideal,Participacao_Global_Normalizada'];
+
+      syn.criteriaList.forEach((c, idx) => {
+        lines.push(`"Criterio",${idx + 1},${q(c.name + ' (' + c.dimName + ')')},${c.wLocal.toFixed(4)},${c.wGlobal.toFixed(4)}`);
+      });
+      syn.clusterScores.forEach((cs, idx) => {
+        lines.push(`"Cluster",${idx + 1},${q(cs.title)},${cs.scoreIdeal.toFixed(4)},${cs.shareNorm.toFixed(4)}`);
+      });
+      syn.routeScores.forEach(rs => {
+        lines.push(`"Rota_ETE",${rs.num},${q(rs.name + ' (' + rs.clusterShortName + ')')},${rs.combinedIndex.toFixed(4)},${rs.adjustedGlobalShare.toFixed(4)}`);
+      });
+
+      // BOM para o Excel abrir acentos corretamente
+      const blob = new Blob(['﻿' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+      triggerDownload(blob, `ranking_ahp_ete_R${RODADA}_${window.currentResults.id}.csv`);
+    }
+
+    const SEND_BTN_HTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg> Confirmar e Enviar Resposta';
+    const BTN_BLUE = 'w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl shadow transition-colors flex items-center justify-center gap-2 text-sm sm:text-base';
+    const BTN_GREEN = 'w-full bg-emerald-600 text-white font-bold py-3 px-6 rounded-xl shadow flex items-center justify-center gap-2 text-sm sm:text-base cursor-default';
+
+    function setSendStatus(type, text) {
+      const box = document.getElementById('send-status');
+      if (!text) { box.classList.add('hidden'); return; }
+      const cls = {
+        error:   'bg-red-50 text-red-800 border border-red-200',
+        success: 'bg-emerald-50 text-emerald-800 border border-emerald-200',
+        info:    'bg-blue-50 text-blue-800 border border-blue-200'
+      }[type];
+      box.className = `text-xs sm:text-sm mb-2 rounded-lg px-3 py-2 ${cls}`;
+      box.textContent = text;
+    }
+
+    function resetSendButton() {
+      const btn = document.getElementById('btn-enviar');
+      btn.disabled = false;
+      btn.className = BTN_BLUE;
+      btn.innerHTML = SEND_BTN_HTML;
+      setSendStatus(null);
+    }
+
+    function storageGet(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+    function storageSet(key, val) { try { localStorage.setItem(key, val); } catch (e) { /* armazenamento indisponível */ } }
+    const SENT_KEY = `ete_ahp_v2_enviado_rodada_${RODADA}`;
+
+    async function sendToGoogleSheets() {
+      const res = window.currentResults;
+      if (!res) return;
+      const btn = document.getElementById('btn-enviar');
+      if (res.sent || btn.disabled) return;
+
+      if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.indexOf('script.google.com') === -1) {
+        setSendStatus('info', 'A planilha ainda não está configurada (GOOGLE_SCRIPT_URL). Baixe suas respostas em CSV ou JSON.');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = 'Enviando…';
+      setSendStatus('info', 'Gravando sua resposta na planilha. Aguarde alguns segundos e não feche a página.');
+
+      try {
+        // Corpo em text/plain (requisição simples, sem preflight). O Apps Script devolve JSON legível,
+        // então só confirmamos o sucesso quando a planilha responde que gravou a linha.
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 45000);
+        const resp = await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(buildPayload()),
+          signal: controller.signal
+        });
+        clearTimeout(timer);
+        const data = await resp.json();
+        if (data.status !== 'success') throw new Error(data.message || 'Resposta inesperada da planilha');
+
+        res.sent = true;
+        storageSet(SENT_KEY, JSON.stringify({ id: res.id, nome: res.nome, quando: new Date().toISOString() }));
+        btn.className = BTN_GREEN;
+        btn.innerHTML = '✓ Resposta enviada';
+        setSendStatus('success', `Resposta gravada com sucesso (protocolo ${res.id}). Muito obrigado pela sua participação!`);
+        lockFormAfterSend();
+      } catch (error) {
+        console.error('Erro no envio:', error);
+        btn.disabled = false;
+        btn.className = BTN_BLUE;
+        btn.innerHTML = 'Tentar novamente';
+        setSendStatus('error', 'Não foi possível confirmar a gravação na planilha. Verifique a conexão e toque em "Tentar novamente". Se persistir, baixe suas respostas (CSV/JSON) e envie ao apresentador.');
+      }
+    }
+
+    function lockFormAfterSend() {
+      document.querySelectorAll('#form-bloco1-container input, #form-bloco2-container input, #form-bloco3-container input, #sec-avaliacao input, #sec-avaliacao textarea, #nome-especialista, #inst-especialista, #area-especialista')
+        .forEach(el => { el.disabled = true; });
+      const vbtn = document.getElementById('validate-btn');
+      vbtn.textContent = 'Resposta enviada — ver resumo';
+      vbtn.className = 'bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-8 rounded-xl shadow-lg transition-all';
+    }
+
+    function showPreviousSendNotice() {
+      const raw = storageGet(SENT_KEY);
+      if (!raw) return;
+      let info = {};
+      try { info = JSON.parse(raw); } catch (e) { return; }
+      const box = document.createElement('div');
+      box.className = 'bg-amber-50 border border-amber-300 text-amber-900 rounded-xl p-4 text-sm';
+      box.innerHTML = `<strong>Este dispositivo já enviou uma resposta nesta rodada</strong> (protocolo ${info.id || '—'}). ` +
+        `Se você é outro especialista usando o mesmo aparelho, pode preencher normalmente. Se já respondeu, não é necessário enviar de novo.`;
+      const container = document.querySelector('.p-4.sm\\:p-6.md\\:p-10.space-y-12');
+      if (container) container.prepend(box);
+    }
+
+    function initRodadaUI() {
+      document.getElementById('rodada-badge').textContent = `Rodada ${RODADA}`;
+      document.title = `Rodada ${RODADA} — ` + document.title;
+    }
+
+    window.onload = () => {
+      renderForm();
+      initRodadaUI();
+      updateGlobalConsistencyPill();
+      showPreviousSendNotice();
+    };
+  </script>
+</body>
+</html>
