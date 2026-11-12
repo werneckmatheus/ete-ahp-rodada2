@@ -964,7 +964,8 @@
             </div>
 
             <div class="scale-container w-full overflow-x-auto pb-3">
-              <div class="min-w-[640px] flex justify-between items-end px-2">
+              <!-- 17 colunas de largura igual: a 9ª (valor 1) fica sempre no centro, alinhada ao "vs" -->
+              <div class="min-w-[272px] grid items-end sm:px-2" style="grid-template-columns: repeat(17, minmax(0, 1fr));">
         `;
 
         scaleLabels.forEach((label, i) => {
@@ -972,8 +973,8 @@
           const radioId = `radio-${section.id}-${idx}-${i}`;
 
           html += `
-            <label for="${radioId}" class="flex flex-col items-center cursor-pointer group flex-1">
-              <span class="text-xs font-bold mb-1.5 ${isCenter ? 'text-slate-600 bg-slate-200 px-1.5 py-0.5 rounded' : 'text-blue-700'} group-hover:text-blue-500">${label}</span>
+            <label for="${radioId}" class="flex flex-col items-center cursor-pointer group py-1 ${isCenter ? 'bg-slate-100 rounded-md' : ''}">
+              <span class="text-[11px] sm:text-xs font-bold mb-1.5 ${isCenter ? 'text-slate-700' : 'text-blue-700'} group-hover:text-blue-500">${label}</span>
               <input type="radio" id="${radioId}" name="pair-${section.id}-${idx}" value="${i}"
                 onchange="handlePairwiseSelection('${section.id}', ${idx}, ${i})"
                 class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 focus:ring-blue-500 cursor-pointer">
@@ -983,10 +984,10 @@
 
         html += `
               </div>
-              <div class="flex justify-between text-[11px] font-medium text-slate-500 mt-2.5 min-w-[640px] px-2">
-                <span>&larr; Maior peso para ${item1}</span>
-                <span>Igual importância (1)</span>
-                <span>Maior peso para ${item2} &rarr;</span>
+              <div class="grid grid-cols-3 gap-1 text-[10px] sm:text-[11px] font-medium text-slate-500 mt-2 min-w-[272px] sm:px-2 leading-tight">
+                <span class="text-left">&larr; Maior peso para ${item1}</span>
+                <span class="text-center">Igual importância (1)</span>
+                <span class="text-right">Maior peso para ${item2} &rarr;</span>
               </div>
             </div>
           </div>
@@ -1178,6 +1179,25 @@
 
       // Atualiza pesos intra-cluster iniciais
       clustersData.forEach(cluster => updateClusterActionShares(cluster.id));
+
+      // Em telas muito estreitas a régua rola na horizontal: abre já centralizada no valor 1
+      centralizarEscalas();
+      setTimeout(centralizarEscalas, 400); // depois que as fontes carregam
+      window.addEventListener('resize', centralizarEscalas);
+      window.addEventListener('orientationchange', () => setTimeout(centralizarEscalas, 300));
+      if ('ResizeObserver' in window) {
+        let larguraAnterior = 0;
+        new ResizeObserver(entries => {
+          const w = Math.round(entries[0].contentRect.width);
+          if (w !== larguraAnterior) { larguraAnterior = w; centralizarEscalas(); }
+        }).observe(document.querySelector('.scale-container'));
+      }
+    }
+
+    function centralizarEscalas() {
+      document.querySelectorAll('.scale-container').forEach(sc => {
+        sc.scrollLeft = (sc.scrollWidth - sc.clientWidth) / 2;
+      });
     }
 
     // --- HANDLERS DE INTERAÇÃO ---
